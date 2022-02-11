@@ -42,6 +42,20 @@ const mensagensErro = {
   cpf: {
     valueMissing: 'O campo de CPF não pode estar vazio',
     customError: 'O CPF digitado não é válido'
+  },
+  cep: {
+    valueMissing: 'O campo de CEP não pode estar vazio',
+    patternMismatch: 'O CEP digitado não é válido',
+    customError: 'Não foi possível buscar o CEP'
+  },
+  logradouro: {
+    valueMissing: 'O campo de Logradouro não pode estar vazio'
+  },
+  cidade: {
+    valueMissing: 'O campo de Cidade não pode estar vazio'
+  },
+  estado: {
+    valueMissing: 'O campo de Estado não pode estar vazio'
   }
 }
 
@@ -57,7 +71,8 @@ function mostraMensagemErro(tipoDeInput, input) {
 
 const validadores = {
   dataNascimento: input => validaDataNascimento(input),
-  cpf: input => validaCpf(input)
+  cpf: input => validaCpf(input),
+  cep: input => recuperarCEP(input)
 }
 
 function validaDataNascimento(input) {
@@ -148,4 +163,39 @@ function confirmaDigito(soma) {
   else {
     return 11 - (soma % 11)
   }
+}
+
+function recuperarCEP(input) {
+  const cep = input.value.replace(/\D/g, '')
+  const url = `https://viacep.com.br/ws/${cep}/json`
+  const options = {
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'content-type': 'aplication/json;charset=utf-8'
+    }
+  }
+  if (!input.validity.patternMismatch && !input.validity.valueMissing) {
+    fetch(url, options)
+      .then(response => response.json())
+      .then(data => {
+        if (data.erro) {
+          input.setCustomValidity('Não foi possível buscar o CEP')
+          return
+        }
+        input.setCustomValidity('')
+        preencheCamposComCep(data)
+        return
+      })
+  }
+}
+
+function preencheCamposComCep(data) {
+  const logradouro = document.querySelector('[data-tipo="logradouro"]')
+  const cidade = document.querySelector('[data-tipo="cidade"]')
+  const estado = document.querySelector('[data-tipo="estado"]')
+
+  logradouro.value = data.logradouro
+  cidade.value = data.localidade
+  estado.value = data.uf
 }
