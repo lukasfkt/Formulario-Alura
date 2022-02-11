@@ -4,8 +4,8 @@
 
 <h2> Cadastro Cliente </h2>
 
-![image](https://user-images.githubusercontent.com/86384828/153673355-7a8480db-c7ae-4816-a979-409c049ecce5.png)
-
+<img src="https://user-images.githubusercontent.com/86384828/153673355-7a8480db-c7ae-4816-a979-409c049ecce5.png" allign="center">
 
 <h2> Cadastro Produto </h2>  
-![image](https://user-images.githubusercontent.com/86384828/153673400-ad7d5f9c-61c6-4a50-98ff-bf112150551d.png)
+
+<img src="https://user-images.githubusercontent.com/86384828/153673400-ad7d5f9c-61c6-4a50-98ff-bf112150551d.png" allign="center">
